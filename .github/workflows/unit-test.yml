@@ -1,0 +1,43 @@
+name: Unit Test
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Local Chain
+        run: |
+          npm i -g ganache-cli
+          mkdir logs
+          ganache-cli \
+            --gasLimit 100000000 \
+            --allowUnlimitedContractSize \
+            -e 100000000 \
+            -p 5566 \
+            -i 9487 \
+            1>logs/network.local.log \
+            2>logs/network.local.err \
+            &
+          CHAIN_PID=$!
+
+      - name: Test
+        run: |
+          yarn
+          yarn truffle test
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: uint-test
+          path: build/coverage/
+
+      - name: Stop
+        run: |
+          kill $CHAIN_PID

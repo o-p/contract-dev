@@ -1,0 +1,14 @@
+{
+  "name": "dapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:o-p/contract-dev.git",
+  "author": "Chris Chu <op.github.io@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "truffle": "^5.3.10",
+    "typechain": "^5.0.0",
+    "typescript": "^4.3.2"
+  }
+}
